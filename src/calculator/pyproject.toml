@@ -1,0 +1,17 @@
+[project]
+name = "TestSimpleCalculator_2026_SC"
+version = "0.0.1"
+authors = [{name= "Sanjay CAND"}]
+description = "Simple calculateur for packaging demo"
+license = {text = "Unlicense"}
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+test = ["pytest>=7.0", "pytest-cov", "pylint", "black", "radon"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
