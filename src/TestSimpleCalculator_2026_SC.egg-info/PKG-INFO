@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: TestSimpleCalculator_2026_SC
+Version: 0.0.1
+Summary: Simple calculateur for packaging demo
+Author: Sanjay CAND
+License: Unlicense
+Requires-Python: >=3.10
+License-File: LICENCE
+Provides-Extra: test
+Requires-Dist: pytest>=7.0; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pylint; extra == "test"
+Requires-Dist: black; extra == "test"
+Requires-Dist: radon; extra == "test"
+Dynamic: license-file

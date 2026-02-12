@@ -32,10 +32,9 @@ class Calculator:
         Sortie : un entier
         """
         if not self._verifier_entiers(a, b):
-            print("Entrer des entiers")
-        else:
-            print("Le résultat est :", a + b)
-
+            raise TypeError("Entrer des entiers")
+        return a + b
+    
     # Soustraction
     def substract(self, a, b):
         """
@@ -44,10 +43,9 @@ class Calculator:
         Sortie : un entier
         """
         if not self._verifier_entiers(a, b):
-            print("Entrer des entiers")
-        else:
-            print("Le résultat est :", a - b)
-
+            raise TypeError("Entrer des entiers")
+        return a - b
+    
     # Multiplication
     def multiply(self, a, b):
         """
@@ -56,10 +54,9 @@ class Calculator:
         Sortie : un entier
         """
         if not self._verifier_entiers(a, b):
-            print("Entrer des entiers")
-        else:
-            print("Le résultat est :", a * b)
-
+            raise TypeError("Entrer des entiers")
+        return a * b
+    
     # Division
     def divide(self, a, b):
         """
@@ -68,18 +65,8 @@ class Calculator:
         Sortie : un float
         """
         if not self._verifier_entiers(a, b):
-            print("Entrer des entiers")
-        elif b == 0:
-            print("ZeroDivisionError")
-        else:
-            print("Le résultat est :", a / b)
+            raise TypeError("Entrer des entiers")
+        if b == 0:
+            raise ZeroDivisionError("Division par zéro impossible")
+        return a / b
 
-
-
-#mini test
-calc = Calculator()
-
-calc.fsum(5, 5)
-calc.substract(5, 5)
-calc.multiply(5, 5)
-calc.divide(5, 5)

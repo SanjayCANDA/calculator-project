@@ -1,0 +1,10 @@
+LICENCE
+pyproject.toml
+src/TestSimpleCalculator_2026_SC.egg-info/PKG-INFO
+src/TestSimpleCalculator_2026_SC.egg-info/SOURCES.txt
+src/TestSimpleCalculator_2026_SC.egg-info/dependency_links.txt
+src/TestSimpleCalculator_2026_SC.egg-info/requires.txt
+src/TestSimpleCalculator_2026_SC.egg-info/top_level.txt
+src/calculator/__init__.py
+src/calculator/simple_calculator.py
+tests/test_simple_calculator.py
