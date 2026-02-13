@@ -1,4 +1,4 @@
-/ venv
+/venv
 .coverage
 .DS_Store
 .pytest_cache
