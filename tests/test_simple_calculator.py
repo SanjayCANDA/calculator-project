@@ -1,5 +1,5 @@
 """
-    Docstring
+
 Auteur : Sanjay CANDA
 Date : 12/02/2026
 Objectif : Fichier test pour calculator, permet de vérifier le bon fonctionnement de calculator

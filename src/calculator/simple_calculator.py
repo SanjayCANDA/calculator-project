@@ -1,5 +1,5 @@
 """
-    Docstring pour calculator.simple_calculator
+Docstring pour calculator.simple_calculator
 Auteur : Sanjay CANDA
 Date : 12/02/2026
 Objectif : Classe contenant des fonctions de calcule treès simple
@@ -10,7 +10,6 @@ class Calculator:
     """
     Classe Calculatrice permettant d'effectuer des opérations arithmétiques
     simples (addition, soustraction, multiplication, division) entre deux entiers.
-
     Chaque méthode vérifie que les paramètres fournis sont des entiers avant
     d'effectuer le calcul.
     """
@@ -34,7 +33,7 @@ class Calculator:
         if not self._verifier_entiers(a, b):
             raise TypeError("Entrer des entiers")
         return a + b
-    
+
     # Soustraction
     def substract(self, a, b):
         """
@@ -45,7 +44,7 @@ class Calculator:
         if not self._verifier_entiers(a, b):
             raise TypeError("Entrer des entiers")
         return a - b
-    
+
     # Multiplication
     def multiply(self, a, b):
         """
@@ -56,7 +55,7 @@ class Calculator:
         if not self._verifier_entiers(a, b):
             raise TypeError("Entrer des entiers")
         return a * b
-    
+
     # Division
     def divide(self, a, b):
         """
@@ -69,4 +68,3 @@ class Calculator:
         if b == 0:
             raise ZeroDivisionError("Division par zéro impossible")
         return a / b
-
