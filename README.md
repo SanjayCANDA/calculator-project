@@ -8,17 +8,18 @@ Il est conçu comme un **exemple de packaging Python**, avec un environnement vi
 
 ## Contenu du projet
 
+```
 calculator-project/
-├── pyproject.toml # Déclaration du package et dépendances
-├── README.md # Ce fichier
-├── LICENSE # Licence Unlicense
+├── pyproject.toml   # Déclaration du package et dépendances
+├── README.md        # Ce fichier
+├── LICENSE          # Licence Unlicense
 ├── src/
 │ └── calculator/
 │ ├── init.py # Indique que c'est un package Python
-│ └── simple_calculator.py # Code source de la calculatrice
+│ └── simple_calculator.py       # Code source de la calculatrice
 └── tests/
-└── test_simple_calculator.py # Tests unitaires et calcul du pourcentage de réussite
-
+└── test_simple_calculator.py    # Tests unitaires et calcul du pourcentage de réussite
+```
 
 ### Fichiers principaux
 
