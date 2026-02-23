@@ -8,7 +8,7 @@ Il est conçu comme un **exemple de packaging Python**, avec un environnement vi
 
 ## Contenu du projet
 
-```
+<pre>
 calculator-project/
 ├── pyproject.toml   # Déclaration du package et dépendances
 ├── README.md        # Ce fichier
@@ -19,7 +19,7 @@ calculator-project/
 │ └── simple_calculator.py       # Code source de la calculatrice
 └── tests/
 └── test_simple_calculator.py    # Tests unitaires et calcul du pourcentage de réussite
-```
+</pre>
 
 ### Fichiers principaux
 
