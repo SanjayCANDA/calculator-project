@@ -8,10 +8,12 @@ Objectif : Fichier test pour calculator, permet de vérifier le bon fonctionneme
 import pytest
 from calculator.simple_calculator import Calculator
 
+
 @pytest.fixture
 def calc():
     """Prépare une instance de Calculator pour chaque test."""
     return Calculator()
+
 
 # =================================================================
 # 1. LA PRÉCISION ARITHMÉTIQUE (HAPPY PATH)
@@ -22,9 +24,11 @@ def test_precision_arithmetique(calc):
     assert calc.multiply(5, 5) == 25
     assert calc.divide(10, 2) == 5.0
 
+
 # =================================================================
 # 2. LE CONTRÔLE DES TYPES (SÉCURITÉ)
 # =================================================================
+
 
 def test_rejet_strings(calc):
     """Vérifie que les chaînes de caractères lèvent une TypeError."""
@@ -37,6 +41,7 @@ def test_rejet_strings(calc):
     with pytest.raises(TypeError):
         calc.divide(5, "d")
 
+
 def test_restriction_entiers(calc):
     """Vérifie que les nombres à virgule (float) sont refusés."""
     with pytest.raises(TypeError):
@@ -48,18 +53,22 @@ def test_restriction_entiers(calc):
     with pytest.raises(TypeError):
         calc.divide(5, 3.3)
 
+
 # =================================================================
 # 3. LA GESTION DES CAS CRITIQUES (DIVISION)
 # =================================================================
+
 
 def test_division_zero_numerateur(calc):
     """Vérifie que 0 divisé par un nombre fonctionne et renvoie 0."""
     assert calc.divide(0, 5) == 0
 
+
 def test_division_par_zero_interdite(calc):
     """Vérifie que la division par zéro lève bien ZeroDivisionError."""
     with pytest.raises(ZeroDivisionError):
         calc.divide(5, 0)
+
 
 """
 from calculator.simple_calculator import Calculator
