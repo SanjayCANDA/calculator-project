@@ -1,33 +1,17 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires =["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "TestSimpleCalculator_2026_SC"
 version = "0.0.1"
-authors = [{name = "Sanjay CAND"}]
+authors = [{name= "Sanjay CAND"}]
 description = "Simple calculateur for packaging demo"
-readme = "README.md"
 license = {text = "Unlicense"}
 requires-python = ">=3.10"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: Public Domain",
-    "Operating System :: OS Independent",
-]
-dependencies = []
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "pytest-cov",
-    "pylint",
-    "black",
-    "radon",
-    "flake8",
-    "build",
-    "twine"
-]
+test = ["pytest>=7.0", "pytest-cov", "pylint", "black", "radon"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

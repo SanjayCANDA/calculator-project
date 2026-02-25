@@ -77,6 +77,9 @@ L'Interdiction fatale : Vérifier que la division par zéro est interceptée et 
 ---
 
 
+====================================================================================================================
+
+
 
 ## Installation et utilisation
 
@@ -109,8 +112,69 @@ Depuis la racine du projet :
 ### 4. Vérification de l’installation du package
 
 Dans un interpréteur Python :
+<pre>
 python3
 >>> from calculator.simple_calculator import Calculator
 >>> calc = Calculator()
 >>> calc.fsum(5, 5)
 10
+</pre>
+
+=========================================================================
+
+
+
+##  Architecture CI/CD (GitHub Actions)
+
+Le fichier `.github/workflows/main.yml` orchestre automatiquement les étapes suivantes à chaque `push` sur la branche `main` sur GitHub :
+
+1. **Linting & Formatting** : Vérification du style avec `Black` et `Flake8`.
+2. **Unit Tests** : Exécution des tests via `Pytest` sur plusieurs versions de Python (3.10, 3.12).
+3. **Metrics** : Analyse de la complexité cyclomatique avec `Radon`.
+4. **Build** : Création des archives de distribution (`.tar.gz` et `.whl`).
+5. **Continuous Deployment** : Publication automatique sur **TestPyPI**.
+
+De même pour le fichier `.gitlab-ci.yml` qui permet d'automatiser les tests et vérification à charque `push` sur GitLab
+
+## TestPyPI
+
+1. Le problème : Le risque de vol d'identité
+
+Pour publier ta calculatrice sur TestPyPI, tu as besoin d'une autorisation.
+Si tu écris ton mot de passe ou ton Token en clair dans ton fichier main.yml, n'importe qui consultant ton projet sur GitHub peut le voler.
+
+Une fois volé, quelqu'un pourrait publier du code malveillant à ta place sous le nom de ton projet.
+
+
+2. La solution : Le Repository Secret
+
+Un Secret est une variable d'environnement chiffrée.
+
+Tu le déposes sur GitHub : Dans les paramètres de ton dépôt (Settings > Secrets and variables > Actions).
+
+GitHub le masque : Une fois enregistré, plus personne ne peut le lire (même pas toi). Il apparaît sous forme d'astérisques *** dans les journaux (logs) du pipeline.
+
+Le Workflow l'utilise : Ton fichier main.yml appelle le secret via la syntaxe ${{ secrets.TESTPYPI_TOKEN }} au moment précis du déploiement.
+
+
+3. Le mécanisme avec TestPyPI (Le Token API)
+
+Au lieu d'utiliser ton mot de passe personnel TestPyPI, on utilise un Token API. C'est une longue chaîne de caractères qui ressemble à pypi-AgENdGVzdC5weXBpLm9yZw....
+
+Portée limitée : Tu peux créer un token qui n'a le droit de publier que sur un seul projet spécifique.
+
+Révocation facile : Si tu penses que le token est compromis, tu peux le supprimer sur TestPyPI sans avoir à changer ton mot de passe principal.
+
+
+4. Le flux de travail sécurisé
+
+Voici ce qui se passe quand ton job deploy-testpypi se lance :
+
+Récupération : GitHub Actions "déverrouille" le secret TESTPYPI_TOKEN et l'injecte dans une variable temporaire (TWINE_PASSWORD).
+
+Authentification : L'outil Twine envoie le paquet à TestPyPI en utilisant ce token comme preuve d'identité.
+
+Nettoyage : Dès que le job est fini, la variable est effacée de la mémoire du serveur GitHub.
+
+#### En résumé
+Les Repository Secrets permettent de séparer le code (qui est public ou partagé) de l'autorisation (qui reste privée). C'est le pilier de la sécurité en DevOps.
