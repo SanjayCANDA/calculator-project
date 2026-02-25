@@ -21,6 +21,48 @@ calculator-project/
 └── test_simple_calculator.py    # Tests unitaires et calcul du pourcentage de réussite
 </pre>
 
+## Fonctionnalité du projet 
+
+## 1. Description du Code
+Le module `simple_calculator.py` fournit une classe `Calculator` conçue pour effectuer des opérations arithmétiques de base. Sa particularité réside dans son approche **défensive** : elle valide strictement les types de données avant toute opération pour garantir l'intégrité des calculs.
+
+## 2. Analyse des Fonctionnalités
+
+| Méthode | Action | Entrée (Types) | Sortie (Types) |
+| :--- | :--- | :--- | :--- |
+| `_verifier_entiers` | Validation interne | `(any, any)` | `bool` |
+| `fsum` | Addition | `(int, int)` | `int` |
+| `substract` | Soustraction | `(int, int)` | `int` |
+| `multiply` | Multiplication | `(int, int)` | `int` |
+| `divide` | Division | `(int, int)` | `float` |
+
+
+
+## 3. Exemples d'Utilisation par Méthode
+
+Voici comment instancier la classe et utiliser ses méthodes :
+
+```python
+from calculator.simple_calculator import Calculator
+
+calc = Calculator()
+
+# --- SOMME ---
+# Additionne deux entiers
+res_sum = calc.fsum(10, 5)  # Résultat : 15
+
+# --- SOUSTRACTION ---
+# Soustrait le deuxième nombre du premier
+res_sub = calc.substract(10, 5)  # Résultat : 5
+
+# --- MULTIPLICATION ---
+# Multiplie deux entiers
+res_mult = calc.multiply(10, 5)  # Résultat : 50
+
+# --- DIVISION ---
+# Divise le premier par le second (renvoie un float)
+res_div = calc.divide(10, 4)  # Résultat : 2.5
+```
 ## Fichiers principaux
 
 ### Fichier calculator
@@ -77,7 +119,7 @@ L'Interdiction fatale : Vérifier que la division par zéro est interceptée et 
 ---
 
 
-====================================================================================================================
+====================================================================
 
 
 
