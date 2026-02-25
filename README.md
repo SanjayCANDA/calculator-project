@@ -30,7 +30,7 @@ Le module `simple_calculator.py` fournit une classe `Calculator` conçue pour ef
 
 | Méthode | Action | Entrée (Types) | Sortie (Types) |
 | :--- | :--- | :--- | :--- |
-| `_verifier_entiers` | Validation interne | `(any, any)` | `bool` |
+| `_verifier_entiers` | Vérification entier | `(any, any)` | `bool` |
 | `fsum` | Addition | `(int, int)` | `int` |
 | `substract` | Soustraction | `(int, int)` | `int` |
 | `multiply` | Multiplication | `(int, int)` | `int` |
