@@ -1,86 +1,71 @@
-name: CI/CD Python Packaging
-
 on:
   push:
     branches: [ main ]
-    paths-ignore:
-      - '*.md'
   pull_request:
     branches: [ main ]
-  release:
-    types: [ published ]
 
 jobs:
-  lint_test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.12"]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: 'pip'
-          cache-dependency-path: pyproject.toml
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest flake8
-          if [ -f Makefile ]; then make install-dev; else pip install -e .; fi
-      - name: Run Tests
-        run: |
-          python -m pytest
-
-  metrics:
+  # PARTIE CI  
+  ci-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install Metrics Tools
-        run: |
-          python -m pip install radon
-      - name: Run Metrics
-        run: |
-          make metrics-all || radon cc . -a -na
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+        pip install pytest black pylint radon
+    - name: Lint & Format
+      run: |
+        black --check src/ tests/
+        pylint src/
+    - name: Metrics
+      run: |
+        radon cc src/ -a
+        radon mi src/
+    - name: Test
+      run: pytest tests/
 
+  # PARTIE CD  
   build:
+    name: Build package
     runs-on: ubuntu-latest
-    needs: lint_test
+    needs: ci-tests 
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Build Package
-        run: |
-          python -m pip install --upgrade build
-          rm -rf dist  # On s'assure que le dossier est vide
-          python -m build
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/*
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+    - name: Install build tools
+      run: python -m pip install build twine
+    - name: Build standard package
+      run: python -m build
+    - name: Check package structure
+      run: twine check dist/*
+    - name: Upload package
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
 
   deploy-testpypi:
+    name: Publish to TestPyPI
     runs-on: ubuntu-latest
     needs: build
+    # Se lance uniquement sur la branche main 
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-      - name: Publish TestPyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
-        run: |
-          python -m pip install twine
-          python -m twine upload --repository testpypi dist/*
+    - uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish package to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        password: ${{ secrets.TESTPYPI_TOKEN }}
