@@ -28,7 +28,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install pytest flake8
-          # Si le Makefile existe, on l'utilise, sinon on installe en local
           if [ -f Makefile ]; then make install-dev; else pip install -e .; fi
       - name: Run Tests
         run: |
@@ -47,7 +46,6 @@ jobs:
           python -m pip install radon
       - name: Run Metrics
         run: |
-          # Si make metrics-all échoue, on lance la commande directement
           make metrics-all || radon cc . -a -na
 
   build:
@@ -92,4 +90,14 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Publish PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          python -m pip install twine
+          python -m twine upload dist/*
