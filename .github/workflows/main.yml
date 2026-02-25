@@ -8,8 +8,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+    build-and-test:
+    - runs-on: ubuntu-latest
 
     steps:
     - name: Récupération du code
