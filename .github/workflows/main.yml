@@ -59,7 +59,8 @@ jobs:
           python-version: '3.12'
       - name: Build Package
         run: |
-          python -m pip install build
+          python -m pip install --upgrade build
+          rm -rf dist  # On s'assure que le dossier est vide
           python -m build
       - uses: actions/upload-artifact@v4
         with:
