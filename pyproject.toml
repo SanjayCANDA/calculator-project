@@ -3,8 +3,8 @@ requires =["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "TestSimpleCalculator_2026_SC"
-version = "0.0.1"
+name = "TestSimpleCalculator_2026_SCND"
+version = "0.0.2"
 authors = [{name= "Sanjay CAND"}]
 description = "Simple calculateur for packaging demo"
 license = {text = "Unlicense"}
