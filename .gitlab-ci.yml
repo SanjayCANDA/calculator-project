@@ -1,4 +1,4 @@
-#.gitlab-ci.yml
+#.gitlab-ci.yml - CI/CD pour projet Python avec GitLab CI
 # Variables globales (tous jobs)
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"  # Cache pip
