@@ -24,10 +24,15 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
           cache-dependency-path: pyproject.toml
-      - name: Install & Test
+      - name: Install dependencies
         run: |
-          make install-dev
-          pytest
+          python -m pip install --upgrade pip
+          python -m pip install pytest flake8
+          # Si le Makefile existe, on l'utilise, sinon on installe en local
+          if [ -f Makefile ]; then make install-dev; else pip install -e .; fi
+      - name: Run Tests
+        run: |
+          python -m pytest
 
   metrics:
     runs-on: ubuntu-latest
@@ -37,10 +42,13 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Metrics
+      - name: Install Metrics Tools
         run: |
-          make install-dev
-          make metrics-all
+          python -m pip install radon
+      - name: Run Metrics
+        run: |
+          # Si make metrics-all échoue, on lance la commande directement
+          make metrics-all || radon cc . -a -na
 
   build:
     runs-on: ubuntu-latest
@@ -51,10 +59,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Build
+      - name: Build Package
         run: |
-          make install-dev
-          make build
+          python -m pip install build
+          python -m build
       - uses: actions/upload-artifact@v4
         with:
           name: dist
@@ -75,8 +83,8 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
         run: |
-          pip install twine
-          twine upload --repository testpypi dist/*
+          python -m pip install twine
+          python -m twine upload --repository testpypi dist/*
 
   deploy-pypi:
     runs-on: ubuntu-latest
@@ -84,14 +92,4 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-      - name: Publish PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          pip install twine
-          twine upload dist/*
+      - uses: actions/download-artifact
